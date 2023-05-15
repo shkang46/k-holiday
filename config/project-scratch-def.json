@@ -1,13 +1,27 @@
 {
-    "orgName": "ksh company",
+    "orgName": "trestle kholiday",
     "edition": "Developer",
     "features": ["EnableSetPasswordInApi"],
+    "country": "US",
+    "language": "en_US",
     "settings": {
+        "fieldServiceSettings": {
+            "fieldServiceOrgPref": false,
+            "enableWorkOrders": true
+        },
         "lightningExperienceSettings": {
             "enableS1DesktopEnabled": true
         },
+        "securitySettings": {
+            "sessionSettings": {
+                "sessionTimeout": "TwelveHours"
+            }
+        },
         "mobileSettings": {
             "enableS1EncryptedStoragePref2": false
+        },
+        "languageSettings": {
+            "enableTranslationWorkbench": true
         }
     }
 }
