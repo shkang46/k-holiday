@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata
+    xmlns="http://soap.sforce.com/2006/04/metadata"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+>
+    <label>Default</label>
+    <protected>false</protected>
+    <values>
+        <field>ServiceKey__c</field>
+        <value
+            xsi:type="xsd:string"
+        >ufun8I/PqUSyyXQ74X3y38SkSMEEcbgzno96WE9bqEnZ2cGb0cEjIXQBnbOwjV5hrrL2Z8gZTRmrWRXb0wk2ZQ==</value>
+    </values>
+</CustomMetadata>
