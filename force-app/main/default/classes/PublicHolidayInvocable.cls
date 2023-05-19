@@ -5,11 +5,11 @@ global without sharing class PublicHolidayInvocable {
 
     @InvocableMethod(label='KR Public Holiday' description='공공데이터포털조회' category='Calendar' callout=true)
     global static void getHolidayInfo(List<Requests> params) {
-        upsertHolidays(params[0].year, params[0].month);
+        upsertHolidays(params[0].dt);
     }
 
     @future(callout=true)
-    global static void upsertHolidays(Integer year, Integer month) {
+    global static void upsertHolidays(Date dt) {
         try {
             KHolidayCredentials__c publicApiCredential = KHolidayCredentials__c.getOrgDefaults();
 
@@ -20,8 +20,8 @@ global without sharing class PublicHolidayInvocable {
             String endpoint = 'https://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo';
             String serviceKey = publicApiCredential.ServiceKey__c;
 
-            String solYear = String.valueOf(year);
-            String solMonth = String.valueOf(month).leftPad(2, '0');
+            String solYear = String.valueOf(dt.year());
+            String solMonth = String.valueOf(dt.month()).leftPad(2, '0');
 
             String compose =
                 '?serviceKey=' +
@@ -43,7 +43,7 @@ global without sharing class PublicHolidayInvocable {
             PublicHolidayBuilder builder = new PublicHolidayBuilder(response.getBody());
             List<Holiday> holidays = builder.build();
 
-            Date currentMonthFisrtDay = Date.newInstance(year, month, 1);
+            Date currentMonthFisrtDay = Date.newInstance(dt.year(), dt.month(), 1);
             Date nextMonthFirstDay = currentMonthFisrtDay.addMonths(1);
 
             Set<String> nameSet = new Set<String>();
@@ -74,10 +74,7 @@ global without sharing class PublicHolidayInvocable {
     }
 
     global class Requests {
-        @InvocableVariable(label='년' description='Year' required=true)
-        global Integer year;
-
-        @InvocableVariable(label='월' description='Month' required=true)
-        global Integer month;
+        @InvocableVariable(label='날짜' description='date' required=true)
+        global Date dt;
     }
 }

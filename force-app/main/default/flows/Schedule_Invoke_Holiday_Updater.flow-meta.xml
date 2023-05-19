@@ -1,39 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <actionCalls>
-        <name>Initiate</name>
-        <label>Initiate</label>
-        <locationX>176</locationX>
-        <locationY>276</locationY>
+        <name>Call_KHoliday</name>
+        <label>Call KHoliday</label>
+        <locationX>50</locationX>
+        <locationY>396</locationY>
         <actionName>PublicHolidayInvocable</actionName>
         <actionType>apex</actionType>
+        <connector>
+            <targetReference>assign_AddCounter</targetReference>
+        </connector>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
-            <name>year</name>
+            <name>dt</name>
             <value>
-                <elementReference>CurrentYear</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>month</name>
-            <value>
-                <elementReference>CurrentMonth</elementReference>
+                <elementReference>LoopDate</elementReference>
             </value>
         </inputParameters>
     </actionCalls>
     <apiVersion>57.0</apiVersion>
+    <assignments>
+        <name>assign_AddCounter</name>
+        <label>Counter++</label>
+        <locationX>50</locationX>
+        <locationY>516</locationY>
+        <assignmentItems>
+            <assignToReference>Counter</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <numberValue>1.0</numberValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <isGoTo>true</isGoTo>
+            <targetReference>decision_CounterLessThan12</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <name>decision_CounterLessThan12</name>
+        <label>Counter &lt; 12</label>
+        <locationX>182</locationX>
+        <locationY>276</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>outcome_ConterLessThan12</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Counter</leftValueReference>
+                <operator>LessThan</operator>
+                <rightValue>
+                    <numberValue>12.0</numberValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Call_KHoliday</targetReference>
+            </connector>
+            <label>Counter &lt; 12</label>
+        </rules>
+    </decisions>
     <environments>Default</environments>
     <formulas>
-        <name>CurrentMonth</name>
-        <dataType>Number</dataType>
-        <expression>MONTH(TODAY())</expression>
-        <scale>0</scale>
-    </formulas>
-    <formulas>
-        <name>CurrentYear</name>
-        <dataType>Number</dataType>
-        <expression>YEAR(TODAY())</expression>
-        <scale>0</scale>
+        <name>LoopDate</name>
+        <dataType>Date</dataType>
+        <expression>ADDMONTHS(
+    {!CurrentDate},
+    {!Counter}
+)</expression>
     </formulas>
     <interviewLabel>Schedule Invoke Holiday Updater {!$Flow.CurrentDateTime}</interviewLabel>
     <isTemplate>true</isTemplate>
@@ -58,10 +90,10 @@
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
     <start>
-        <locationX>50</locationX>
+        <locationX>56</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>Initiate</targetReference>
+            <targetReference>decision_CounterLessThan12</targetReference>
         </connector>
         <schedule>
             <frequency>Once</frequency>
@@ -71,4 +103,25 @@
         <triggerType>Scheduled</triggerType>
     </start>
     <status>Active</status>
+    <variables>
+        <name>Counter</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+        <value>
+            <numberValue>0.0</numberValue>
+        </value>
+    </variables>
+    <variables>
+        <name>CurrentDate</name>
+        <dataType>Date</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <elementReference>$Flow.CurrentDate</elementReference>
+        </value>
+    </variables>
 </Flow>

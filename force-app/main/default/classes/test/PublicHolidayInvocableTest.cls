@@ -11,8 +11,7 @@ public class PublicHolidayInvocableTest {
         Test.startTest();
 
         PublicHolidayInvocable.Requests param = new PublicHolidayInvocable.Requests();
-        param.year = 2023;
-        param.month = 5;
+        param.dt = Date.newInstance(2023, 5, 1);
 
         PublicHolidayInvocable.getHolidayInfo(new List<PublicHolidayInvocable.Requests>{ param });
 
@@ -37,8 +36,7 @@ public class PublicHolidayInvocableTest {
         Test.startTest();
 
         PublicHolidayInvocable.Requests param = new PublicHolidayInvocable.Requests();
-        param.year = 2023;
-        param.month = 3;
+        param.dt = Date.newInstance(2023, 3, 1);
 
         PublicHolidayInvocable.getHolidayInfo(new List<PublicHolidayInvocable.Requests>{ param });
 
@@ -57,8 +55,7 @@ public class PublicHolidayInvocableTest {
         Test.setMock(HttpCalloutMock.class, new PublicHolidayInvocableTestMock());
 
         PublicHolidayInvocable.Requests param = new PublicHolidayInvocable.Requests();
-        param.year = 2023;
-        param.month = 5;
+        param.dt = Date.newInstance(2023, 5, 1);
 
         try {
             Test.startTest();
