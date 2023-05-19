@@ -19,9 +19,3 @@ Holiday 오브젝트에 레코드를 생성하는 <strong>Invocable Method</stro
 
 ## Usage
 Flow `Schedule Invoke Holiday Updater` 참고
-
-### Input
-|Name|Type|Example|
-|---|---|---|
-|year|number|2023|
-|month|number|5|
